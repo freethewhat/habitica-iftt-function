@@ -16,13 +16,13 @@ namespace habitica_iftt_function
     {
         [FunctionName("HabiticaTodo")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             // Get app API Key and url pareameters
-            var appApiKey = System.Environment.GetEnvironmentVariable("FUNCTION_API_KEY");
+            var appApiKey = Environment.GetEnvironmentVariable("FUNCTION_API_KEY", EnvironmentVariableTarget.Process);
             string title = req.Query["title"];
             string apiKey = req.Query["key"];
 
@@ -43,8 +43,8 @@ namespace habitica_iftt_function
         {
             // Get base URL and Habitica API auth info
             var baseUrl = "https://habitica.com/api/v3/tasks/user";
-            var userId = Environment.GetEnvironmentVariable("HABITICA_USER_ID");
-            var apiKey = Environment.GetEnvironmentVariable("HABITICA_API_KEY");
+            var userId = Environment.GetEnvironmentVariable("HABITICA_USER_ID", EnvironmentVariableTarget.Process);
+            var apiKey = Environment.GetEnvironmentVariable("HABITICA_API_KEY", EnvironmentVariableTarget.Process);
 
             // Create client and add auth headers.
             HttpClient client = new HttpClient();
